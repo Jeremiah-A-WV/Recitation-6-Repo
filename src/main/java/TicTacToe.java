@@ -30,8 +30,7 @@ public class TicTacToe {
      * @return true if the location is an integer that represents one of the squares on the board ; false otherwise
      */
     public boolean isValid(int location) {
-        // TODO: add code here
-        return false;
+        return location >= 0 & location < 9;
     }
 
     /**
@@ -41,8 +40,7 @@ public class TicTacToe {
      * @return true if the location is NOT occupied by a game piece; false otherwise
      */
     public boolean isEmpty(int location) {
-        // TODO: add code here
-        return false;
+        return board[location / 3][location % 3] == null;
     }
 
     /**
@@ -51,8 +49,7 @@ public class TicTacToe {
      * @return the number of moves remaining on the board
      */
     public int movesRemaining() {
-        // TODO: add code here
-        return 0;
+        return 9 - numOfMoves;
     }
 
     /**
@@ -62,8 +59,10 @@ public class TicTacToe {
      * @return the game piece at the provided location
      */
     public GamePiece getPiece(int location) {
-        // TODO: add code here
-        return null;
+        if ( board[location / 3][location % 3] == null){
+            return null;
+        }
+        return new GamePiece(board[location / 3][location % 3]);
     }
 
     /**
@@ -79,8 +78,13 @@ public class TicTacToe {
                 {0, 4, 8}, {2, 4, 6}             // diagonal winning combinations
         };
 
-        // TODO: add code here
-
+        for (int[] combo : combos) {
+            GamePiece piece = getPiece(combo[0]);
+            if (piece.getPiece() == getPiece(combo[1]).getPiece() & piece.getPiece() == getPiece(combo[2]).getPiece()) {
+                winner = piece;
+                break;
+            }
+        }
         return winner;
     }
 
@@ -113,7 +117,8 @@ public class TicTacToe {
      */
     public void clear() {
         // set all elements of 2d array to null
-        // TODO: add code here
+        board = new GamePiece[3][3];
+        numOfMoves = 0;
     }
 
     /**
@@ -123,7 +128,18 @@ public class TicTacToe {
     @Override
     public String toString() {
         String s = "";
-        // TODO: add code here
+        s +="-\n";
+        for(int row =0; row< board.length; row++){
+            for (int col = 0; col< board[0].length; col++){
+                s+= "|"+ ((row* board[row].length)+col);
+            }
+            s+="|\n";
+            for (int col = 0; col< board[0].length; col++){
+                s+= "--";
+            }
+            s+="|\n";
+
+        }
         return s;
     }
 }
